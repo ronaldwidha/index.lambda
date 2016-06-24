@@ -6,14 +6,23 @@ Index.lambda is a bootstrapper (and lightweight web framework) to build server-s
 Features
 --------
 
-**Support for Query Strings**
+**Support for HTTP GET request with Query Strings**
 
 ```
 event.query // {"query":"123"}
 ```
 
+Getting Started
+---------------
 
+```
+npm install
+sls dash deploy
+```
 
 Roadmap
 -------
-- Defining route in code
+- Support for POST
+- Support for Cookie
+- Defining routes in code
+- Support for fav.ico
