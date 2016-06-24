@@ -1,7 +1,7 @@
 {
   "name": "index-dot-lambda",
   "version": "0.0.1",
-  "description": "A Serverless Project and its Serverless Plugin dependencies.",
+  "description": "A bootstrapper (and lightweight web framework) for AWS API Gateway and AWS Lambda.",
   "author": "Ronald Widha",
   "license": "Apache-2.0",
   "private": false,
