@@ -12,6 +12,7 @@
   "dependencies": {
     "aws-sdk": "^2.4.0",
     "bluebird": "^3.4.1",
+    "mustache": "^2.2.1",
     "serverless-runtime-babel": "0.0.6"
   }
 }

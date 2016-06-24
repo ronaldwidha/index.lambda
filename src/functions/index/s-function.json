@@ -4,7 +4,7 @@
   "description": "Serverless Lambda function for project: index-dot-lambda",
   "customName": false,
   "customRole": false,
-  "handler": "handler.default",
+  "handler": "index/handler.default",
   "timeout": 6,
   "memorySize": 1024,
   "authorizer": {},

@@ -1,0 +1,11 @@
+doctype html
+html(lang="en")
+  head
+    title Index dot lambda
+  body
+    h1 Can you believe it!
+    h2 This is a Serverless Server-side page
+    p Query String: #{JSON.stringify(event.query)}
+    h3 Diagnostics
+    p Event: #{JSON.stringify(event)}
+    p Context: #{JSON.stringify(context)}
