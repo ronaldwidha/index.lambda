@@ -1,0 +1,53 @@
+{
+  "name": "index",
+  "runtime": "babel",
+  "description": "Serverless Lambda function for project: index-dot-lambda",
+  "customName": false,
+  "customRole": false,
+  "handler": "handler.default",
+  "timeout": 6,
+  "memorySize": 1024,
+  "authorizer": {},
+  "custom": {
+    "excludePatterns": []
+  },
+  "endpoints": [
+    {
+      "path": "/",
+      "method": "GET",
+      "type": "AWS",
+      "authorizationType": "none",
+      "authorizerFunction": false,
+      "apiKeyRequired": false,
+      "requestParameters" : {},
+      "requestTemplates": {
+          "application/json": "{\n  \"headers\": {\n    #foreach($header in $input.params().header.keySet())\n    \"$header\": \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\": {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\" #if($foreach.hasNext),#end\n\n    #end\n  }  \n}"
+      },
+      "responses": {
+        "400": {
+          "statusCode": "400"
+        },
+        "default": {
+          "statusCode": "200",
+          "responseTemplates": {
+            "text/html": "$input.path('$')"
+          },
+          "responseParameters": {
+            "method.response.header.Content-Type": "'text/html'"
+          },
+          "responseModels": {}
+        }
+      }
+    }
+  ],
+  "events": [],
+  "environment": {
+    "SERVERLESS_PROJECT": "${project}",
+    "SERVERLESS_STAGE": "${stage}",
+    "SERVERLESS_REGION": "${region}"
+  },
+  "vpc": {
+    "securityGroupIds": [],
+    "subnetIds": []
+  }
+}
