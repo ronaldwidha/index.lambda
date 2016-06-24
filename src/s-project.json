@@ -1,0 +1,5 @@
+{
+  "name": "aws-web-lambda",
+  "custom": {},
+  "plugins": ["serverless-runtime-babel"]
+}

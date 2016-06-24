@@ -1,0 +1,17 @@
+{
+  "name": "aws-web-lambda",
+  "version": "0.0.1",
+  "description": "A Serverless Project and its Serverless Plugin dependencies.",
+  "author": "Ronald Widha",
+  "license": "Apache-2.0",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.4.0",
+    "bluebird": "^3.4.1",
+    "serverless-runtime-babel": "0.0.6"
+  }
+}
