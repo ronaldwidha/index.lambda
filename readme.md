@@ -9,7 +9,9 @@ Features
 **Support for HTTP GET request with Query Strings**
 
 ```
-event.query // {"query":"123"}
+export default (event, context) => {
+  event.query // {"query":"123"}
+}
 ```
 
 Getting Started
