@@ -20,6 +20,9 @@ export default (event, context) => {
 
 **Support for dynamic routes**
 
+
+|          | API | Example | 
+|----------|------------------------------------------------|----------------------------------------------------|
 | 1 level  | `event.params.level1 // contact-us`            | E.g. http://domain/contact-us                      |
 | 2 levels | `event.params.level2 // ronaldwidha`           | E.g. http://domain/user/ronaldwidha                |
 | 3 levels | `event.params.level3 // how-to-build-a-blog`   | E.g. http://domain/article/123/how-to-build-a-blog |
