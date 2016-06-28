@@ -21,7 +21,7 @@ export default (event, context) => {
 **Support for dynamic routes**
 
 
-|          | API | Example | 
+|          | API | Example |
 |----------|------------------------------------------------|----------------------------------------------------|
 | 1 level  | `event.params.level1 // contact-us`            | E.g. http://domain/contact-us                      |
 | 2 levels | `event.params.level2 // ronaldwidha`           | E.g. http://domain/user/ronaldwidha                |
@@ -40,3 +40,7 @@ Roadmap
 - Support for POST
 - Support for Cookie
 - Support for fav.ico
+
+Known issues
+------------
+1. after deployment change lambda-index to use node 4.3 through console
