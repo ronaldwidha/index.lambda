@@ -24,9 +24,6 @@
           "application/json": "{\n  \"headers\": {\n    #foreach($header in $input.params().header.keySet())\n    \"$header\": \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\": {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\" #if($foreach.hasNext),#end\n\n    #end\n  }  \n}"
       },
       "responses": {
-        "400": {
-          "statusCode": "400"
-        },
         "default": {
           "statusCode": "200",
           "responseTemplates": {
@@ -36,6 +33,42 @@
             "method.response.header.Content-Type": "'text/html'"
           },
           "responseModels": {}
+        },
+        "statusCode:301": {
+          "statusCode": "301",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:302": {
+          "statusCode": "302",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:400": {
+          "statusCode": "400",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:401": {
+          "statusCode": "401",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:404": {
+          "statusCode": "404",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:500": {
+          "statusCode": "500",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
         }
       }
     },
@@ -51,9 +84,6 @@
           "application/json": "{\n  \"headers\": {\n    #foreach($header in $input.params().header.keySet())\n    \"$header\": \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\": {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\" #if($foreach.hasNext),#end\n\n    #end\n  }  \n}"
       },
       "responses": {
-        "400": {
-          "statusCode": "400"
-        },
         "default": {
           "statusCode": "200",
           "responseTemplates": {
@@ -63,6 +93,42 @@
             "method.response.header.Content-Type": "'text/html'"
           },
           "responseModels": {}
+        },
+        "statusCode:301": {
+          "statusCode": "301",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:302": {
+          "statusCode": "302",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:400": {
+          "statusCode": "400",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:401": {
+          "statusCode": "401",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:404": {
+          "statusCode": "404",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:500": {
+          "statusCode": "500",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
         }
       }
     },
@@ -78,9 +144,6 @@
           "application/json": "{\n  \"headers\": {\n    #foreach($header in $input.params().header.keySet())\n    \"$header\": \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\": {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\" #if($foreach.hasNext),#end\n\n    #end\n  }  \n}"
       },
       "responses": {
-        "400": {
-          "statusCode": "400"
-        },
         "default": {
           "statusCode": "200",
           "responseTemplates": {
@@ -90,6 +153,42 @@
             "method.response.header.Content-Type": "'text/html'"
           },
           "responseModels": {}
+        },
+        "statusCode:301": {
+          "statusCode": "301",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:302": {
+          "statusCode": "302",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:400": {
+          "statusCode": "400",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:401": {
+          "statusCode": "401",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:404": {
+          "statusCode": "404",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:500": {
+          "statusCode": "500",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
         }
       }
     },
@@ -105,9 +204,6 @@
           "application/json": "{\n  \"headers\": {\n    #foreach($header in $input.params().header.keySet())\n    \"$header\": \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\": {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\" #if($foreach.hasNext),#end\n\n    #end\n  }  \n}"
       },
       "responses": {
-        "400": {
-          "statusCode": "400"
-        },
         "default": {
           "statusCode": "200",
           "responseTemplates": {
@@ -117,6 +213,42 @@
             "method.response.header.Content-Type": "'text/html'"
           },
           "responseModels": {}
+        },
+        "statusCode:301": {
+          "statusCode": "301",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:302": {
+          "statusCode": "302",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:400": {
+          "statusCode": "400",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:401": {
+          "statusCode": "401",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:404": {
+          "statusCode": "404",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:500": {
+          "statusCode": "500",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
         }
       }
     }
