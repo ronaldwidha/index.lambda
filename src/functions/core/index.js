@@ -11,14 +11,6 @@ export default class index {
     // }]
   }
 
-  get(path, httpHandler) {
-    this.handlers.set( `GET:${path}`, {
-      method: "GET",
-      path: path,
-      handler: httpHandler
-    });
-  }
-
   set(event, context) {
     this.initialized = true;
     this.event = event;
@@ -27,8 +19,25 @@ export default class index {
     this.res = new Response(this);
   }
 
+  get(path, httpHandler) {
+    this.handlers.set( `GET:${path}`, {
+      method: "GET",
+      path: path,
+      handler: httpHandler
+    });
+  }
+
+  post(path, httpHandler) {
+    this.handlers.set( `POST:${path}`, {
+      method: "POST",
+      path: path,
+      handler: httpHandler
+    });
+  }
+
+
   handle() {
-    var theRightHandler = this.handlers.get(`GET:${this.req.url}`);
+    var theRightHandler = this.handlers.get(`${this.req.method}:${this.req.url}`);
 
     // // if not found: return default page
     // return (theRightHandler && theRightHandler.handler(this.req, this.res)) || this.res.renderDiagnostic();

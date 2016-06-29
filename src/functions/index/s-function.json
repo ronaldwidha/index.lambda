@@ -73,6 +73,67 @@
       }
     },
     {
+      "path": "/",
+      "method": "POST",
+      "type": "AWS",
+      "authorizationType": "none",
+      "authorizerFunction": false,
+      "apiKeyRequired": false,
+      "requestParameters": {},
+      "requestTemplates": {
+        "application/json": "{\n  \"body\": $input.json('$'),\n  \"headers\": {\n    #foreach($header in $input.params().header.keySet())\n    \"$header\": \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\": {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\" #if($foreach.hasNext),#end\n\n    #end\n  }  \n}",
+        "application/x-www-form-urlencoded": "## convert HTML POST data or HTTP GET query string to JSON\n\n## get the raw post data from the AWS built-in variable and give it a nicer name\n#set($rawAPIData = $input.path(\"$\"))\n\n## first we get the number of \"&\" in the string, this tells us if there is more than one key value pair\n#set($countAmpersands = $rawAPIData.length() - $rawAPIData.replace(\"&\", \"\").length())\n\n## if there are no \"&\" at all then we have only one key value pair.\n## we append an ampersand to the string so that we can tokenise it the same way as multiple kv pairs.\n## the \"empty\" kv pair to the right of the ampersand will be ignored anyway.\n#if ($countAmpersands == 0)\n #set($rawPostData = $rawAPIData + \"&\")\n#end\n\n## now we tokenise using the ampersand(s)\n#set($tokenisedAmpersand = $rawAPIData.split(\"&\"))\n\n## we set up a variable to hold the valid key value pairs\n#set($tokenisedEquals = [])\n\n## now we set up a loop to find the valid key value pairs, which must contain only one \"=\"\n#foreach( $kvPair in $tokenisedAmpersand )\n #set($countEquals = $kvPair.length() - $kvPair.replace(\"=\", \"\").length())\n #if ($countEquals == 1)\n  #set($kvTokenised = $kvPair.split(\"=\"))\n  #if ( ( $kvTokenised[0].length() > 0 ) && ( $kvTokenised[1].length() > 0 ) )\n   ## we found a valid key value pair. add it to the list.\n   #set($devNull = $tokenisedEquals.add($kvPair))\n  #end\n #end\n#end\n\n## next we set up our loop inside the output structure \"{\" and \"}\"\n\n## next we set up our loop inside the output structure \"{\" and \"}\"\n{\n  \"body\": \n  {\n    #foreach( $kvPair in $tokenisedEquals )\n    ## finally we output the JSON for this pair and append a comma if this isn't the last pair\n    #set($kvTokenised = $kvPair.split(\"=\"))\n   \"$util.urlDecode($kvTokenised[0])\" : #if($kvTokenised.size() > 1 && $kvTokenised[1].length() > 0)\"$util.urlDecode($kvTokenised[1])\"#{else}\"\"#end#if( $foreach.hasNext ),#end\n  #end\n  },\n  \"headers\": {\n    #foreach($header in $input.params().header.keySet())\n    \"$header\": \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\": {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\" #if($foreach.hasNext),#end\n\n    #end\n  }\n}"
+      },
+      "responses": {
+        "default": {
+          "statusCode": "200",
+          "responseTemplates": {
+            "text/html": "$input.path('$')"
+          },
+          "responseParameters": {
+            "method.response.header.Content-Type": "'text/html'"
+          },
+          "responseModels": {}
+        },
+        "statusCode:301": {
+          "statusCode": "301",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:302": {
+          "statusCode": "302",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:400": {
+          "statusCode": "400",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:401": {
+          "statusCode": "401",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:404": {
+          "statusCode": "404",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:500": {
+          "statusCode": "500",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        }
+      }
+    },
+    {
       "path": "{level1}",
       "method": "GET",
       "type": "AWS",
@@ -82,6 +143,67 @@
       "requestParameters": {},
       "requestTemplates": {
           "application/json": "{\n  \"headers\": {\n    #foreach($header in $input.params().header.keySet())\n    \"$header\": \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\": {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\" #if($foreach.hasNext),#end\n\n    #end\n  }  \n}"
+      },
+      "responses": {
+        "default": {
+          "statusCode": "200",
+          "responseTemplates": {
+            "text/html": "$input.path('$')"
+          },
+          "responseParameters": {
+            "method.response.header.Content-Type": "'text/html'"
+          },
+          "responseModels": {}
+        },
+        "statusCode:301": {
+          "statusCode": "301",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:302": {
+          "statusCode": "302",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:400": {
+          "statusCode": "400",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:401": {
+          "statusCode": "401",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:404": {
+          "statusCode": "404",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:500": {
+          "statusCode": "500",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        }
+      }
+    },
+    {
+      "path": "{level1}",
+      "method": "POST",
+      "type": "AWS",
+      "authorizationType": "none",
+      "authorizerFunction": false,
+      "apiKeyRequired": false,
+      "requestParameters": {},
+      "requestTemplates": {
+        "application/json": "{\n  \"body\": $input.json('$'),\n  \"headers\": {\n    #foreach($header in $input.params().header.keySet())\n    \"$header\": \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\": {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\" #if($foreach.hasNext),#end\n\n    #end\n  }  \n}",
+        "application/x-www-form-urlencoded": "## convert HTML POST data or HTTP GET query string to JSON\n\n## get the raw post data from the AWS built-in variable and give it a nicer name\n#set($rawAPIData = $input.path(\"$\"))\n\n## first we get the number of \"&\" in the string, this tells us if there is more than one key value pair\n#set($countAmpersands = $rawAPIData.length() - $rawAPIData.replace(\"&\", \"\").length())\n\n## if there are no \"&\" at all then we have only one key value pair.\n## we append an ampersand to the string so that we can tokenise it the same way as multiple kv pairs.\n## the \"empty\" kv pair to the right of the ampersand will be ignored anyway.\n#if ($countAmpersands == 0)\n #set($rawPostData = $rawAPIData + \"&\")\n#end\n\n## now we tokenise using the ampersand(s)\n#set($tokenisedAmpersand = $rawAPIData.split(\"&\"))\n\n## we set up a variable to hold the valid key value pairs\n#set($tokenisedEquals = [])\n\n## now we set up a loop to find the valid key value pairs, which must contain only one \"=\"\n#foreach( $kvPair in $tokenisedAmpersand )\n #set($countEquals = $kvPair.length() - $kvPair.replace(\"=\", \"\").length())\n #if ($countEquals == 1)\n  #set($kvTokenised = $kvPair.split(\"=\"))\n  #if ( ( $kvTokenised[0].length() > 0 ) && ( $kvTokenised[1].length() > 0 ) )\n   ## we found a valid key value pair. add it to the list.\n   #set($devNull = $tokenisedEquals.add($kvPair))\n  #end\n #end\n#end\n\n## next we set up our loop inside the output structure \"{\" and \"}\"\n\n## next we set up our loop inside the output structure \"{\" and \"}\"\n{\n  \"body\": \n  {\n    #foreach( $kvPair in $tokenisedEquals )\n    ## finally we output the JSON for this pair and append a comma if this isn't the last pair\n    #set($kvTokenised = $kvPair.split(\"=\"))\n   \"$util.urlDecode($kvTokenised[0])\" : #if($kvTokenised.size() > 1 && $kvTokenised[1].length() > 0)\"$util.urlDecode($kvTokenised[1])\"#{else}\"\"#end#if( $foreach.hasNext ),#end\n  #end\n  },\n  \"headers\": {\n    #foreach($header in $input.params().header.keySet())\n    \"$header\": \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\": {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\" #if($foreach.hasNext),#end\n\n    #end\n  }\n}"
       },
       "responses": {
         "default": {
@@ -193,6 +315,67 @@
       }
     },
     {
+      "path": "{level1}/{level2}",
+      "method": "POST",
+      "type": "AWS",
+      "authorizationType": "none",
+      "authorizerFunction": false,
+      "apiKeyRequired": false,
+      "requestParameters": {},
+      "requestTemplates": {
+        "application/json": "{\n  \"body\": $input.json('$'),\n  \"headers\": {\n    #foreach($header in $input.params().header.keySet())\n    \"$header\": \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\": {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\" #if($foreach.hasNext),#end\n\n    #end\n  }  \n}",
+        "application/x-www-form-urlencoded": "## convert HTML POST data or HTTP GET query string to JSON\n\n## get the raw post data from the AWS built-in variable and give it a nicer name\n#set($rawAPIData = $input.path(\"$\"))\n\n## first we get the number of \"&\" in the string, this tells us if there is more than one key value pair\n#set($countAmpersands = $rawAPIData.length() - $rawAPIData.replace(\"&\", \"\").length())\n\n## if there are no \"&\" at all then we have only one key value pair.\n## we append an ampersand to the string so that we can tokenise it the same way as multiple kv pairs.\n## the \"empty\" kv pair to the right of the ampersand will be ignored anyway.\n#if ($countAmpersands == 0)\n #set($rawPostData = $rawAPIData + \"&\")\n#end\n\n## now we tokenise using the ampersand(s)\n#set($tokenisedAmpersand = $rawAPIData.split(\"&\"))\n\n## we set up a variable to hold the valid key value pairs\n#set($tokenisedEquals = [])\n\n## now we set up a loop to find the valid key value pairs, which must contain only one \"=\"\n#foreach( $kvPair in $tokenisedAmpersand )\n #set($countEquals = $kvPair.length() - $kvPair.replace(\"=\", \"\").length())\n #if ($countEquals == 1)\n  #set($kvTokenised = $kvPair.split(\"=\"))\n  #if ( ( $kvTokenised[0].length() > 0 ) && ( $kvTokenised[1].length() > 0 ) )\n   ## we found a valid key value pair. add it to the list.\n   #set($devNull = $tokenisedEquals.add($kvPair))\n  #end\n #end\n#end\n\n## next we set up our loop inside the output structure \"{\" and \"}\"\n\n## next we set up our loop inside the output structure \"{\" and \"}\"\n{\n  \"body\": \n  {\n    #foreach( $kvPair in $tokenisedEquals )\n    ## finally we output the JSON for this pair and append a comma if this isn't the last pair\n    #set($kvTokenised = $kvPair.split(\"=\"))\n   \"$util.urlDecode($kvTokenised[0])\" : #if($kvTokenised.size() > 1 && $kvTokenised[1].length() > 0)\"$util.urlDecode($kvTokenised[1])\"#{else}\"\"#end#if( $foreach.hasNext ),#end\n  #end\n  },\n  \"headers\": {\n    #foreach($header in $input.params().header.keySet())\n    \"$header\": \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\": {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\" #if($foreach.hasNext),#end\n\n    #end\n  }\n}"
+      },
+      "responses": {
+        "default": {
+          "statusCode": "200",
+          "responseTemplates": {
+            "text/html": "$input.path('$')"
+          },
+          "responseParameters": {
+            "method.response.header.Content-Type": "'text/html'"
+          },
+          "responseModels": {}
+        },
+        "statusCode:301": {
+          "statusCode": "301",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:302": {
+          "statusCode": "302",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:400": {
+          "statusCode": "400",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:401": {
+          "statusCode": "401",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:404": {
+          "statusCode": "404",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:500": {
+          "statusCode": "500",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        }
+      }
+    },
+    {
       "path": "{level1}/{level2}/{level3}",
       "method": "GET",
       "type": "AWS",
@@ -202,6 +385,67 @@
       "requestParameters": {},
       "requestTemplates": {
           "application/json": "{\n  \"headers\": {\n    #foreach($header in $input.params().header.keySet())\n    \"$header\": \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\": {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\" #if($foreach.hasNext),#end\n\n    #end\n  }  \n}"
+      },
+      "responses": {
+        "default": {
+          "statusCode": "200",
+          "responseTemplates": {
+            "text/html": "$input.path('$')"
+          },
+          "responseParameters": {
+            "method.response.header.Content-Type": "'text/html'"
+          },
+          "responseModels": {}
+        },
+        "statusCode:301": {
+          "statusCode": "301",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:302": {
+          "statusCode": "302",
+          "responseParameters" : {
+            "method.response.header.Location": "integration.response.body.errorType"
+          }
+        },
+        "statusCode:400": {
+          "statusCode": "400",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:401": {
+          "statusCode": "401",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:404": {
+          "statusCode": "404",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        },
+        "statusCode:500": {
+          "statusCode": "500",
+          "responseTemplates": {
+            "text/html": "$input.path('$.errorType')"
+          }
+        }
+      }
+    },
+    {
+      "path": "{level1}/{level2}/{level3}",
+      "method": "POST",
+      "type": "AWS",
+      "authorizationType": "none",
+      "authorizerFunction": false,
+      "apiKeyRequired": false,
+      "requestParameters": {},
+      "requestTemplates": {
+        "application/json": "{\n  \"body\": $input.json('$'),\n  \"headers\": {\n    #foreach($header in $input.params().header.keySet())\n    \"$header\": \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\": {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\" #if($foreach.hasNext),#end\n\n    #end\n  }  \n}",
+        "application/x-www-form-urlencoded": "## convert HTML POST data or HTTP GET query string to JSON\n\n## get the raw post data from the AWS built-in variable and give it a nicer name\n#set($rawAPIData = $input.path(\"$\"))\n\n## first we get the number of \"&\" in the string, this tells us if there is more than one key value pair\n#set($countAmpersands = $rawAPIData.length() - $rawAPIData.replace(\"&\", \"\").length())\n\n## if there are no \"&\" at all then we have only one key value pair.\n## we append an ampersand to the string so that we can tokenise it the same way as multiple kv pairs.\n## the \"empty\" kv pair to the right of the ampersand will be ignored anyway.\n#if ($countAmpersands == 0)\n #set($rawPostData = $rawAPIData + \"&\")\n#end\n\n## now we tokenise using the ampersand(s)\n#set($tokenisedAmpersand = $rawAPIData.split(\"&\"))\n\n## we set up a variable to hold the valid key value pairs\n#set($tokenisedEquals = [])\n\n## now we set up a loop to find the valid key value pairs, which must contain only one \"=\"\n#foreach( $kvPair in $tokenisedAmpersand )\n #set($countEquals = $kvPair.length() - $kvPair.replace(\"=\", \"\").length())\n #if ($countEquals == 1)\n  #set($kvTokenised = $kvPair.split(\"=\"))\n  #if ( ( $kvTokenised[0].length() > 0 ) && ( $kvTokenised[1].length() > 0 ) )\n   ## we found a valid key value pair. add it to the list.\n   #set($devNull = $tokenisedEquals.add($kvPair))\n  #end\n #end\n#end\n\n## next we set up our loop inside the output structure \"{\" and \"}\"\n\n## next we set up our loop inside the output structure \"{\" and \"}\"\n{\n  \"body\": \n  {\n    #foreach( $kvPair in $tokenisedEquals )\n    ## finally we output the JSON for this pair and append a comma if this isn't the last pair\n    #set($kvTokenised = $kvPair.split(\"=\"))\n   \"$util.urlDecode($kvTokenised[0])\" : #if($kvTokenised.size() > 1 && $kvTokenised[1].length() > 0)\"$util.urlDecode($kvTokenised[1])\"#{else}\"\"#end#if( $foreach.hasNext ),#end\n  #end\n  },\n  \"headers\": {\n    #foreach($header in $input.params().header.keySet())\n    \"$header\": \"$util.escapeJavaScript($input.params().header.get($header))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"method\": \"$context.httpMethod\",\n  \"params\": {\n    #foreach($param in $input.params().path.keySet())\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\n\n    #end\n  },\n  \"query\": {\n    #foreach($queryParam in $input.params().querystring.keySet())\n    \"$queryParam\": \"$util.escapeJavaScript($input.params().querystring.get($queryParam))\" #if($foreach.hasNext),#end\n\n    #end\n  }\n}"
       },
       "responses": {
         "default": {

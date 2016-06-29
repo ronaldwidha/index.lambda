@@ -17,6 +17,8 @@ export default (event, context) => {
      return res.renderDiagnostic();
   });
 
+  
+
   // url #1
   index.get("/test-harness/redirect", function(req, res) {
     var renderingService = new RenderingService();
@@ -33,6 +35,11 @@ export default (event, context) => {
   index.get("/redirector", function(req, res) {
     var url = event.query.url; //get from query string
     return index.res.redirect(url);
+  });
+
+  index.post("/redirector", function(req, res) {
+    var url = event.params.url;
+    return res.renderDiagnostic();
   });
 
   // url #3

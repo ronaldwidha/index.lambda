@@ -33,7 +33,7 @@ export default (event, context) => {
     //... handle request
   }
 
-  index.get("/path-1", function(req, res) {
+  index.post("/path-1", function(req, res) {
     //... handle request
   }
 
@@ -109,7 +109,6 @@ sls dash deploy
 Roadmap
 -------
 - Package core library as npm package
-- Support for POST
 - Support for Cookie
 - Support for fav.ico
 
