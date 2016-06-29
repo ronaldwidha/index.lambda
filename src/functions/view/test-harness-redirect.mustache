@@ -15,11 +15,9 @@
     <div class="starter-template">
       <h1>Can't Believe This is Serverless</h1>
       <p class="lead">index.lambda supports 302 redirect</p>
-      <h3>Query string: </h3>
-      <pre><code class="json">{{queryString}}</code></pre>
       <p>Click on the following links to test:</p>
-      <a href="redirect?url=http://www.amazon.com/">this link will 302 redirect you to Amazon.com</a>
-      <a href="redirect?url=">this link will issue 302 redirects endlessly</a>
+      <a href="/dev/redirector?url=http://www.amazon.com/">this link will 302 redirect you to Amazon.com</a><br />
+      <a href="/dev/redirector?url=">this link will issue 302 redirects endlessly</a>
       <br />
       <h3>Diagnostics</h3>
       Event:
