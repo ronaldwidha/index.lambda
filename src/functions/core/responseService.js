@@ -9,6 +9,7 @@ export default class ResponseService {
   renderDiagnostic() {
     var renderingService = new RenderingService();
     return renderingService.render("diagnostic", {
+      stage: "dev", //todo: get from serverless
       queryString: JSON.stringify(this.index.event.query, null, 2),
       fullPath: this.index.path,
       level1: JSON.stringify(this.index.event.params.level1),
