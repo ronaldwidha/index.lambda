@@ -10,14 +10,15 @@ export default (event, context) => {
   index.set(event, context);
 
   // simple router
+  // -------------
 
   // homepage
-  if (index.path == "/") {
-    return index.res.renderDiagnostic();
-  }
+  index.get("/", function(req, res) {
+     return res.renderDiagnostic();
+  });
 
   // url #1
-  else if (index.req.url === "/test-harness/redirect") {
+  index.get("/test-harness/redirect", function(req, res) {
     var renderingService = new RenderingService();
     return renderingService.render("test-harness-redirect", {
       stage: "dev", //todo: get from serverless
@@ -25,17 +26,17 @@ export default (event, context) => {
       context: JSON.stringify(context, null, 2)
     })
     .then((html) => { return context.done(null, html)});
-  }
+  });
 
   //url #2: dependency of url #1
   // an endpoint for the test-harness/redirect
-  else if (index.req.url == "/redirector") {
-      var url = event.query.url; //get from query string
-      return index.res.redirect(url);
-  }
+  index.get("/redirector", function(req, res) {
+    var url = event.query.url; //get from query string
+    return index.res.redirect(url);
+  });
 
   // url #3
-  else if (index.req.url === "/test-harness/query-string") {
+  index.get("/redirector", function(req, res) {
     var renderingService = new RenderingService();
     return renderingService.render("test-harness-query-string", {
       stage: "dev", //todo: get from serverless
@@ -44,11 +45,7 @@ export default (event, context) => {
       context: JSON.stringify(context, null, 2)
     })
     .then((html) => { return context.done(null, html)});
-  }
+  });
 
-  // if not found: return default page
-  return index.res.renderDiagnostic();
-
-  // alternatively if not found: you can send 404 back
-  //return index.res.status(404).send();
+  return index.handle();
 }

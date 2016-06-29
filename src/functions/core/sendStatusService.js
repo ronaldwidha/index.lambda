@@ -1,15 +1,22 @@
 export default class sendStatusService {
-  constructor(context, statusCode, defaultStatusCodeBody) {
+  constructor(context, responseBuffer) {
     this.context = context;
-    this.statusCode = statusCode;
-    this.defaultStatusCodeBody = defaultStatusCodeBody;
+    this.statusCode = responseBuffer.statusCode;
+    this.body = responseBuffer.body;
   }
 
-  send(body) {
-    //todo: body
-    var apiGWErrorParam = new Error(`statusCode:${this.statusCode}`);
-    if (!body) body = this.defaultStatusCodeBody;
-    apiGWErrorParam.name = body;
-    this.context.done(apiGWErrorParam, {});
+  send(overrideBody) {
+
+    if (overrideBody) this.body = overrideBody;
+
+    if (this.statusCode === 200) {
+      this.context.done(null, this.body);
+    }
+    else {
+      //todo: body
+      var apiGWErrorParam = new Error(`statusCode:${this.statusCode}`);
+      apiGWErrorParam.name = this.body;
+      this.context.done(apiGWErrorParam, {});
+    }
   }
 }

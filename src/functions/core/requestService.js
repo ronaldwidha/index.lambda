@@ -1,6 +1,8 @@
 export default class requestService {
   constructor(index) {
     this.index = index;
+    this.method = this.index.method;
+    this.query = this.index.event.query;
     this.url = this.constructPath();
   }
 

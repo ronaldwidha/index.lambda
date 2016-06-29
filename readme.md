@@ -29,11 +29,11 @@ Define paths through code (instead of defining them as endpoints in AWS API Gate
 ```JavaScript
 export default (event, context) => {
 
-  if (index.req.url === "/") {
+  index.get("/", function(req, res) {
     //... handle request
   }
 
-  else if (index.req.url === "/path-1") {
+  index.get("/path-1", function(req, res) {
     //... handle request
   }
 }
@@ -67,6 +67,10 @@ Or roll out your own template engine.
 ```JavaScript
 export default (event, context) => {
   event.query // {"query":"123"}
+
+  // or
+
+  index.req.query // {"query":"123"}
 }
 ```
 
@@ -74,6 +78,7 @@ export default (event, context) => {
 
 ```JavaScript
 export default (event, context) => {
+  //...
   return index.res.redirect(url);
 }
 ```
