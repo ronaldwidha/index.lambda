@@ -11,25 +11,30 @@ Features
 --------
 
 **Easy setup**
-```
+```JavaScript
 import Index from "../core/index";
 var index = new Index();
 
 export default (event, context) => {
+
   index.set(event, context);
+
+  // ...
 }
 ```
 
 **Dynamic routes**
 Define paths through code (instead of defining them as endpoints in AWS API Gateway).
 
-```
+```JavaScript
 export default (event, context) => {
-  if (index.path == "/") {
-    ...
+
+  if (index.path === "/") {
+    //... handle request
   }
+
   else if (index.path === "/path-1") {
-    ...
+    //... handle request
   }
 }
 ```
@@ -45,8 +50,10 @@ Paths can be 3 levels deep.
 
 **Built in Mustache Template engine support**
 
-```
+```JavaScript
 export default (event, context) => {
+  //...
+
   var renderingService = new RenderingService();
   return renderingService.render("mustache-view", { ... })
   .then((html) => { return context.done(null, html)});
@@ -57,7 +64,7 @@ Or roll out your own template engine.
 
 **Get any Query Strings**
 
-```
+```JavaScript
 export default (event, context) => {
   event.query // {"query":"123"}
 }
@@ -65,7 +72,7 @@ export default (event, context) => {
 
 **Perform a 302 redirect**
 
-```
+```JavaScript
 export default (event, context) => {
   return index.res.redirect(url);
 }
@@ -75,7 +82,7 @@ export default (event, context) => {
 
 By default, you'll have access to the following error/status codes: 301, 302, 400, 404, 500
 
-```
+```JavaScript
 export default (event, context) => {
   return index.res.status(404).send("Sorry.");
 }
@@ -85,6 +92,7 @@ export default (event, context) => {
 Getting Started
 ---------------
 To be added
+
 ```
 npm install
 sls dash deploy
