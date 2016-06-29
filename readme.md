@@ -36,6 +36,9 @@ export default (event, context) => {
   index.get("/path-1", function(req, res) {
     //... handle request
   }
+
+  //process the request
+  return index.handle();
 }
 ```
 
