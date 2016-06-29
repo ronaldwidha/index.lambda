@@ -11,7 +11,7 @@ export default class ResponseService {
     return renderingService.render("diagnostic", {
       stage: "dev", //todo: get from serverless
       queryString: JSON.stringify(this.index.event.query, null, 2),
-      fullPath: this.index.path,
+      fullPath: this.index.req.url,
       level1: JSON.stringify(this.index.event.params.level1),
       level2: JSON.stringify(this.index.event.params.level2),
       level3: JSON.stringify(this.index.event.params.level3),

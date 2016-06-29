@@ -9,8 +9,6 @@ export default (event, context) => {
   // pas request state to index.lambda
   index.set(event, context);
 
-  console.log(index.path);
-
   // simple router
 
   // homepage
@@ -19,7 +17,7 @@ export default (event, context) => {
   }
 
   // url #1
-  else if (index.path === "/test-harness/redirect") {
+  else if (index.req.url === "/test-harness/redirect") {
     var renderingService = new RenderingService();
     return renderingService.render("test-harness-redirect", {
       stage: "dev", //todo: get from serverless
@@ -31,13 +29,13 @@ export default (event, context) => {
 
   //url #2: dependency of url #1
   // an endpoint for the test-harness/redirect
-  else if (index.path == "/redirector") {
+  else if (index.req.url == "/redirector") {
       var url = event.query.url; //get from query string
       return index.res.redirect(url);
   }
 
   // url #3
-  else if (index.path === "/test-harness/query-string") {
+  else if (index.req.url === "/test-harness/query-string") {
     var renderingService = new RenderingService();
     return renderingService.render("test-harness-query-string", {
       stage: "dev", //todo: get from serverless

@@ -29,11 +29,11 @@ Define paths through code (instead of defining them as endpoints in AWS API Gate
 ```JavaScript
 export default (event, context) => {
 
-  if (index.path === "/") {
+  if (index.req.url === "/") {
     //... handle request
   }
 
-  else if (index.path === "/path-1") {
+  else if (index.req.url === "/path-1") {
     //... handle request
   }
 }
