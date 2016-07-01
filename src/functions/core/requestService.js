@@ -3,7 +3,28 @@ export default class requestService {
     this.index = index;
     this.method = this.index.event.method;
     this.query = this.index.event.query;
-    this.url = this.constructPath();
+    this.path = this.constructPath();
+    this.fullPath = this.constructFullPath();
+    this.pathRoot = `/${this.index.event.pathPrefix}`;
+  }
+
+  value() {
+    return {
+      method: this.method,
+      query: this.query,
+      path: this.path,
+      fullPath: this.fullPath,
+      pathRoot: this.pathRoot
+    }
+  }
+
+  constructFullPath() {
+    if (this.index.event.pathPrefix !== "") {
+      return `/${this.index.event.pathPrefix}${this.path}`;
+    }
+    else {
+      return `${this.path}`;
+    }
   }
 
   constructPath() {

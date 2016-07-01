@@ -17,13 +17,11 @@ export default (event, context) => {
      return res.renderDiagnostic();
   });
 
-  
-
   // url #1
   index.get("/test-harness/redirect", function(req, res) {
     var renderingService = new RenderingService();
     return renderingService.render("test-harness-redirect", {
-      stage: "dev", //todo: get from serverless
+      pathRoot: req.pathRoot, //todo: get from serverless
       event: JSON.stringify(event, null, 2),
       context: JSON.stringify(context, null, 2)
     })
@@ -43,10 +41,10 @@ export default (event, context) => {
   });
 
   // url #3
-  index.get("/redirector", function(req, res) {
+  index.get("/test-harness/query-string", function(req, res) {
     var renderingService = new RenderingService();
     return renderingService.render("test-harness-query-string", {
-      stage: "dev", //todo: get from serverless
+      pathRoot: req.pathRoot, //todo: get from serverless
       queryString: JSON.stringify(event.query, null, 2),
       event: JSON.stringify(event, null, 2),
       context: JSON.stringify(context, null, 2)

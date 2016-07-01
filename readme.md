@@ -109,6 +109,7 @@ sls dash deploy
 Roadmap
 -------
 - Package core library as npm package
+- Support for path parm E.g. "user/:id"
 - Support for Cookie
 - Support for fav.ico
 

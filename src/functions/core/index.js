@@ -37,7 +37,11 @@ export default class index {
 
 
   handle() {
-    var theRightHandler = this.handlers.get(`${this.req.method}:${this.req.url}`);
+    //exact match
+    var theRightHandler = this.handlers.get(`${this.req.method}:${this.req.path}`);
+
+    //look for pattern
+    //var paths = this.req.url.split("/");
 
     // // if not found: return default page
     // return (theRightHandler && theRightHandler.handler(this.req, this.res)) || this.res.renderDiagnostic();

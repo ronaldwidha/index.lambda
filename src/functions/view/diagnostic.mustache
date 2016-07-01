@@ -15,16 +15,16 @@
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="/{{stage}}">index.lambda</a>
+          <a class="navbar-brand" href="{{pathRoot}}">index.lambda</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/{{stage}}">Home</a></li>
+            <li class="active"><a href="{{pathRoot}}">Home</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Demo <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/{{stage}}/test-harness/query-string">Query String Support</a></li>
-                <li><a href="/{{stage}}/test-harness/redirect">302 Redirect</a></li>
+                <li><a href="{{pathRoot}}/test-harness/query-string">Query String Support</a></li>
+                <li><a href="{{pathRoot}}/test-harness/redirect">302 Redirect</a></li>
               </ul>
             </li>
           </ul>
@@ -37,7 +37,7 @@
       <h3>Query string: </h3>
       <pre><code class="json">{{queryString}}</code></pre>
       <h3>Full Path: </h3>
-      <pre><code class="json">{{fullPath}}</code></pre>
+      <pre><code class="json">{{pathRoot}}</code></pre>
       <h3>Path Top Level: </h3>E.g. /contact-us
       <pre><code class="json">{{level1}}</code></pre>
       <h3>Path Level 2: </h3>E.g. /users/ronaldwidha
@@ -48,6 +48,8 @@
       <br />
       <br />
       <h3>Diagnostics</h3>
+      Request:
+      <pre><code class="json">{{request}}</code></pre>
       Event:
       <pre><code class="json">{{event}}</code></pre>
       Context:

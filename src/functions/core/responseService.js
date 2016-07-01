@@ -13,12 +13,13 @@ export default class ResponseService {
   renderDiagnostic() {
     var renderingService = new RenderingService();
     return renderingService.render("diagnostic", {
-      stage: "dev", //todo: get from serverless
+      pathRoot: this.index.req.pathRoot,
       queryString: JSON.stringify(this.index.event.query, null, 2),
-      fullPath: this.index.req.url,
+      path: this.index.req.path,
       level1: JSON.stringify(this.index.event.params.level1),
       level2: JSON.stringify(this.index.event.params.level2),
       level3: JSON.stringify(this.index.event.params.level3),
+      request: JSON.stringify(this.index.req.value(), null, 2),
       event: JSON.stringify(this.index.event, null, 2),
       context: JSON.stringify(this.index.context, null, 2)
     })
