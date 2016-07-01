@@ -3,7 +3,7 @@ index.lambda
 Once upon a time there was index.php.
 
 ![index.lambda diagnostic page](https://raw.githubusercontent.com/ronaldwidha/index.lambda/master/other/img/demo-screenshot.png)
-Live Demo: [Diagnostic Page] (https://lwrnabvd4f.execute-api.us-east-1.amazonaws.com/dev) *(up and running as of 06/28)*
+Live Demo: [Diagnostic Page] (https://lwrnabvd4f.execute-api.us-east-1.amazonaws.com/demo) *(up and running as of 06/28)*
 
 Index.lambda is a bootstrapper and lightweight web framework for building server-side web application on AWS Lambda and AWS API Gateway. AWS API Gateway was primarily designed for JSON payload. However with the right config (and contortion), the stack work well as a serverless server side web app platform.
 
