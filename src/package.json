@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "A bootstrapper (and lightweight web framework) for AWS API Gateway and AWS Lambda.",
   "author": "Ronald Widha",
-  "license": "Apache-2.0",
-  "private": false,
+  "license": "UNLICENSED",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/ronaldwidha/index.lambda.git"

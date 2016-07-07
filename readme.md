@@ -1,3 +1,6 @@
+** I've decided to stop further development of index.lambda and have made it closed source for the time being. You're more than welcomed to use the project up to this point on AS-IS basis. **
+
+
 index.lambda
 ============
 Once upon a time there was index.php.
