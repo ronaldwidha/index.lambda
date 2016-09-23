@@ -1,4 +1,5 @@
-** I've decided to stop further development of index.lambda and have made it closed source for the time being. You're more than welcomed to use the project up to this point on AS-IS basis. **
+[9/23] This project is now obsolete. If you're interested in such feature, see (https://aws.amazon.com/blogs/aws/api-gateway-update-new-features-simplify-api-development/)[API Gateway Greedy Path]
+[7/7] I've decided to stop further development of index.lambda
 
 
 index.lambda
